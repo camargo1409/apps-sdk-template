@@ -1,16 +1,18 @@
-# Alpic MCP Template
+# ChatGPT Apps SDK Alpic Starter
 
-A TypeScript template for building MCP servers using Streamable HTTP transport.
+This repository is a minimal Typescript application demonstrating how to build an OpenAI Apps SDK compatible MCP server with widget rendering in ChatGPT.
 
 ## Overview
 
-This template provides a foundation for creating MCP servers that can communicate with AI assistants and other MCP clients. It includes a simple HTTP server implementation with example tools, resource & prompts to help you get started building your own MCP integrations.
+This project shows how to integrate a Typescript express application with the ChatGPT Apps SDK using the Model Context Protocol (MCP). It includes a working MCP server that exposes tools and resources that can be called from ChatGPT, with responses rendered natively in ChatGPT. It also includes MCP tools without UI widget
 
-## Prerequisites
+## Getting Started
+
+### Prerequisites
 
 - Node.js 22+ (see `.nvmrc` for exact version)
 
-## Installation
+### Installation
 
 1. Clone the repository:
 
@@ -25,106 +27,46 @@ cd mcp-server-template
 npm install
 ```
 
-3. Create environment file:
+3. Expose local server with ngrok:
 
 ```bash
-cp .env.example .env
+ngrok http 3000
 ```
 
-## Usage
-
-### Development
-
-Start the development server with hot-reload:
+Copy the forwarding URL from ngrok.
 
 ```bash
-npm run dev
+Forwarding     https://3785c5ddc4b6.ngrok-free.app -> http://localhost:3000
 ```
 
-The server will start on `http://localhost:3000` and automatically restart when you make changes to the source code.
+4. Connect to ChatGPT:
 
-### Production Build
+- Toggle **Settings → Connectors → Advanced → Developer mode** in the ChatGPT client.
+- Navigate to **Settings → Connectors → Create**.
+- Enter the URL of your local server (e.g. https://xxxxxx.ngrok-free.app/mcp) and click **Create**. _Don't forget to add `/mcp` to the end of the URL._
+- Prompt the model explicitly while you validate the integration. For example, “Use the Kanban board connector to show my tasks.” Once discovery metadata is dialled in you can rely on indirect prompts.
 
-Build the project for production:
+## Deploy to production
 
-```bash
-npm run build
+Use Alpic to deploy your OpenAI App to production.
+
+- Fork this repository to your personnal Gihtub organization or use it as a template to create a new project.
+- Go to [Alpic](https://app.alpic.ai/), login with your Github account, and create a new project using your repository.
+- Leave all default settings and click on **Deploy**.
+- In ChatGPT, navigate to **Settings → Connectors → Create** and add your MCP server URL with the `/mcp` path (e.g., https://your-app-name.alpic.live/mcp)
+
+## Project Structure
+
 ```
-
-The compiled JavaScript will be output to the `dist/` directory.
-
-### Running the Inspector
-
-Use the MCP inspector tool to test your server:
-
-```bash
-npm run inspector
-```
-
-## API Endpoints
-
-- `POST /mcp` - Main MCP communication endpoint
-- `GET /mcp` - Returns "Method not allowed" (405)
-- `DELETE /mcp` - Returns "Method not allowed" (405)
-
-## Development
-
-### Adding New Tools
-
-To add a new tool, modify `src/server.ts`:
-
-```typescript
-server.tool(
-  "tool-name",
-  "Tool description",
-  {
-    // Define your parameters using Zod schemas
-    param: z.string().describe("Parameter description"),
-  },
-  async ({ param }): Promise<CallToolResult> => {
-    // Your tool implementation
-    return {
-      content: [
-        {
-          type: "text",
-          text: `Result: ${param}`,
-        },
-      ],
-    };
-  },
-);
-```
-
-### Adding New Prompts
-
-To add a new prompt template, modify `src/server.ts`:
-
-```typescript
-server.prompt(
-  "prompt-name",
-  "Prompt description",
-  {
-    // Define your parameters using Zod schemas
-    param: z.string().describe("Parameter description"),
-  },
-  async ({ param }): Promise<GetPromptResult> => {
-    return {
-      messages: [
-        {
-          role: "user",
-          content: {
-            type: "text",
-            text: `Your prompt content with ${param}`,
-          },
-        },
-      ],
-    };
-  },
-);
+.
+├── src/
+│   ├── app.ts          # OpenAI App extension class with widget API implementation
+│   ├── server.ts       # MCP server with tool/resource/prompt registration
+│   └── index.ts        # Express server definition
 ```
 
 ## Resources
 
+- [Apps SDK Documentation](https://developers.openai.com/apps-sdk)
 - [Model Context Protocol Documentation](https://modelcontextprotocol.io/)
-- [MCP SDK Documentation](https://github.com/modelcontextprotocol/typescript-sdk)
-- [Express.js Documentation](https://expressjs.com/)
+- [Alpic Documentation](https://docs.alpic.ai/)
