@@ -18,7 +18,7 @@ This project shows how to integrate a Typescript express application with the Ch
 
 ```bash
 git clone <repository-url>
-cd mcp-server-template
+cd apps-sdk-template
 ```
 
 2. Install dependencies:
