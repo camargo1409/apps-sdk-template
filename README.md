@@ -11,6 +11,7 @@ This project shows how to integrate a Typescript express application with the Ch
 ### Prerequisites
 
 - Node.js 22+ (see `.nvmrc` for exact version)
+- Ngrok
 
 ### Installation
 
