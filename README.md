@@ -27,7 +27,13 @@ cd apps-sdk-template
 npm install
 ```
 
-3. Expose local server with ngrok:
+3. Run the development server:
+
+```bash
+npm run dev
+```
+
+4. Expose local server with ngrok:
 
 ```bash
 ngrok http 3000
@@ -39,7 +45,7 @@ Copy the forwarding URL from ngrok.
 Forwarding     https://3785c5ddc4b6.ngrok-free.app -> http://localhost:3000
 ```
 
-4. Connect to ChatGPT:
+5. Connect to ChatGPT:
 
 - Toggle **Settings → Connectors → Advanced → Developer mode** in the ChatGPT client.
 - Navigate to **Settings → Connectors → Create**.
