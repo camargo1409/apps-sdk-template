@@ -2,7 +2,6 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import express, { type Request, type Response } from "express";
 
 import { getServer } from "./server.js";
-import { config } from "./config.js";
 
 const app = express();
 app.use(express.json());
@@ -64,12 +63,11 @@ app.delete("/mcp", async (req: Request, res: Response) => {
   );
 });
 
-app.listen(config.MCP_HTTP_PORT, (error) => {
+app.listen(3000, (error) => {
   if (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
-  console.log(`MCP Streamable HTTP Server listening on port ${config.MCP_HTTP_PORT}`);
 });
 
 process.on("SIGINT", async () => {

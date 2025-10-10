@@ -1,43 +1,42 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { type CallToolResult, type GetPromptResult, type ReadResourceResult } from "@modelcontextprotocol/sdk/types.js";
+import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import { App } from "./app.js";
 
-export const getServer = (): McpServer => {
-  const server = new McpServer(
+export const getServer = (): App => {
+  const server = new App(
     {
-      name: "mcp-server-template",
+      name: "alpic-openai-app",
       version: "0.0.1",
     },
     { capabilities: {} },
   );
 
-  // Register a simple prompt
-  server.prompt(
-    "greeting-template",
-    "A simple greeting prompt template",
-    {
-      name: z.string().describe("Name to include in greeting"),
-    },
-    async ({ name }): Promise<GetPromptResult> => {
-      return {
-        messages: [
-          {
-            role: "user",
-            content: {
-              type: "text",
-              text: `Please greet ${name} in a friendly manner.`,
-            },
-          },
-        ],
-      };
-    },
-  );
-
-  server.tool(
+  /**
+   * This new widget API defines both a tool and a resource on the underlying MCP server.
+   * The resource is used to display the tools ouput in a UI widget.
+   */
+  server.widget(
     "greet",
-    "A simple greeting tool",
     {
-      name: z.string().describe("Name to greet"),
+      description: "Greet someone by his name",
+      html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+          </style>
+        </head>
+        <body>
+          <h1>Hello, World!</h1>
+        </body>
+      </html>
+      `,
+    },
+    {
+      inputSchema: {
+        name: z.string().describe("Name to greet"),
+      },
     },
     async ({ name }): Promise<CallToolResult> => {
       return {
@@ -47,22 +46,22 @@ export const getServer = (): McpServer => {
             text: `Hello, ${name}!`,
           },
         ],
+        isError: false,
       };
     },
   );
 
-  server.resource(
-    "greeting-resource",
-    "https://example.com/greetings/default",
-    { mimeType: "text/plain" },
-    async (): Promise<ReadResourceResult> => {
+  // MCP tools, resource and prompt APIs remains available and unchanged for other clients
+  server.tool(
+    "bye",
+    "Say goodbye to someone by his name",
+    {
+      name: z.string().describe("Name to say goodbye to"),
+    },
+    async ({ name }): Promise<CallToolResult> => {
       return {
-        contents: [
-          {
-            uri: "https://example.com/greetings/default",
-            text: "Hello, world!",
-          },
-        ],
+        content: [{ type: "text", text: `Goodbye, ${name}!` }],
+        isError: false,
       };
     },
   );

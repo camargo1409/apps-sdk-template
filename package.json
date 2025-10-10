@@ -18,8 +18,7 @@
     "inspector": "mcp-inspector http://localhost:3000/mcp"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
-    "dotenv": "^16.5.0",
+    "@modelcontextprotocol/sdk": "^1.20.0",
     "express": "^5.1.0",
     "zod": "^3.25.51"
   },
