@@ -1,6 +1,8 @@
 import { McpServer, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { type Resource } from "@modelcontextprotocol/sdk/types.js";
+import type { Resource } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodRawShape } from "zod";
+import kebabCase from "lodash";
+import { readFileSync } from "node:fs";
 
 /** @see https://developers.openai.com/apps-sdk/reference#tool-descriptor-parameters */
 type ToolMeta = {
@@ -25,9 +27,7 @@ type McpServerOriginalToolConfig = Omit<Parameters<McpServer["registerTool"]>[1]
 export class App extends McpServer {
   widget<InputArgs extends ZodRawShape, OutputArgs extends ZodRawShape>(
     name: string,
-    resourceConfig: McpServerOriginalResourceConfig & {
-      html: string;
-    },
+    resourceConfig: McpServerOriginalResourceConfig,
     toolConfig: McpServerOriginalToolConfig & {
       inputSchema?: InputArgs;
       outputSchema?: OutputArgs;
@@ -51,8 +51,12 @@ export class App extends McpServer {
         contents: [
           {
             uri,
-            mimeType: "text/html",
-            text: resourceConfig.html,
+            mimeType: "text/html+skybridge",
+            text: `
+            <div id="${kebabCase(name)}-root"></div>
+            <style>${readFileSync(`assets/${name}/style.css`, "utf-8")}</style>
+            <script type="module">${readFileSync(`assets/${name}/index.js`, "utf-8")}</script>
+                    `.trim(),
           },
         ],
       }),
