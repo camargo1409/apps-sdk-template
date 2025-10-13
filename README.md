@@ -51,7 +51,7 @@ Forwarding     https://3785c5ddc4b6.ngrok-free.app -> http://localhost:3000
 - Toggle **Settings → Connectors → Advanced → Developer mode** in the ChatGPT client.
 - Navigate to **Settings → Connectors → Create**.
 - Enter the URL of your local server (e.g. https://xxxxxx.ngrok-free.app/mcp) and click **Create**. _Don't forget to add `/mcp` to the end of the URL._
-- Prompt the model explicitly while you validate the integration. For example, “Use the Kanban board connector to show my tasks.” Once discovery metadata is dialled in you can rely on indirect prompts.
+- Prompt the model explicitly while you validate the integration. For example, “Can you get me the pokedex entry for pikachu?” Once discovery metadata is dialled in you can rely on indirect prompts.
 
 ## Deploy to production
 
@@ -59,7 +59,7 @@ Use Alpic to deploy your OpenAI App to production.
 
 - Fork this repository to your personnal Gihtub organization or use it as a template to create a new project.
 - Go to [Alpic](https://app.alpic.ai/), login with your Github account, and create a new project using your repository.
-- Leave all default settings and click on **Deploy**.
+- Leave all default settings and click on **Deploy**. In about 30 seconds you should see your deployment status as **Deployed**
 - In ChatGPT, navigate to **Settings → Connectors → Create** and add your MCP server URL with the `/mcp` path (e.g., https://your-app-name.alpic.live/mcp)
 
 ## Project Structure
