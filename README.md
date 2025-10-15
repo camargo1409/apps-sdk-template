@@ -51,6 +51,7 @@ Forwarding     https://3785c5ddc4b6.ngrok-free.app -> http://localhost:3000
 - Toggle **Settings → Connectors → Advanced → Developer mode** in the ChatGPT client.
 - Navigate to **Settings → Connectors → Create**.
 - Enter the URL of your local server (e.g. https://xxxxxx.ngrok-free.app/mcp) and click **Create**. _Don't forget to add `/mcp` to the end of the URL._
+- Start a new conversation. Select your newly created connector using **+ → Plus → Your connector**.
 - Prompt the model explicitly while you validate the integration. For example, “Can you get me the pokedex entry for pikachu?” Once discovery metadata is dialled in you can rely on indirect prompts.
 
 ## Deploy to production
