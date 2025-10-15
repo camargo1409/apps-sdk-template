@@ -9,10 +9,13 @@ export default defineConfig({
     cors: true,
   },
   build: {
+    cssCodeSplit: false,
     rollupOptions: {
       input: "./src/main.tsx",
       output: {
         entryFileNames: "index.js",
+        assetFileNames: "[name][extname]",
+        inlineDynamicImports: true,
       },
     },
   },

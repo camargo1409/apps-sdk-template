@@ -1,7 +1,9 @@
 import { McpServer, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Resource } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodRawShape } from "zod";
-import { env } from "./env";
+import { readFileSync } from "fs";
+import { join } from "path";
+import { env } from "./env.js";
 
 /** @see https://developers.openai.com/apps-sdk/reference#tool-descriptor-parameters */
 type ToolMeta = {
@@ -57,14 +59,38 @@ export class App extends McpServer {
         _meta: resourceMetadata,
       },
       async () => {
-        const html = `
-          <div id="root"></div>
-          <script type="module">
-            ${env.NODE_ENV === "production" && `await import('${env.WEB_URL}/index.js');`}
-            ${env.NODE_ENV === "development" && `await import('${env.SERVER_URL}/src/main.tsx');`}
-            window.mountWidget('${name}', 'root');
-          </script>
-          `;
+        const buildHtml = () => {
+          if (env.NODE_ENV === "production") {
+            try {
+              const cssPath = join(process.cwd(), "dist/assets/style.css");
+              const cssContent = readFileSync(cssPath, "utf-8");
+              const jsPath = join(process.cwd(), "dist/assets/index.js");
+              const jsContent = readFileSync(jsPath, "utf-8");
+
+              return `
+                <div id="root"></div>
+                <style>${cssContent}</style>
+                <script type="module">
+                  ${jsContent}
+                  window.mountWidget('${name}', 'root');
+                </script>
+              `;
+            } catch (error) {
+              console.error("Failed to load production assets:", error);
+              return "";
+            }
+          } else {
+            return `
+              <div id="root"></div>
+              <script type="module">
+                await import('${env.SERVER_URL}/src/main.tsx');
+                window.mountWidget('${name}', 'root');
+              </script>
+            `;
+          }
+        };
+
+        const html = buildHtml();
 
         return {
           contents: [
