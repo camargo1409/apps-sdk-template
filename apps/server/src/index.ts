@@ -1,12 +1,22 @@
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import express, { type Request, type Response } from "express";
+import express, { type Request, type Response, type Express } from "express";
+import cors from "cors";
 
 import { getServer } from "./server.js";
+import { startDevServer } from "./devServer.js";
+import type { ViteDevServer } from "vite";
+import { env } from "./env.js";
 
-const app = express();
+const app = express() as Express & { vite: ViteDevServer };
+
+app.use(cors());
+
 app.use(express.json());
 
+startDevServer(app);
+
 app.post("/mcp", async (req: Request, res: Response) => {
+  console.log("Received POST MCP request : ", req.body?.method, req.body?.params?.name ?? "");
   try {
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
@@ -36,7 +46,7 @@ app.post("/mcp", async (req: Request, res: Response) => {
 });
 
 app.get("/mcp", async (req: Request, res: Response) => {
-  console.log("Received GET MCP request");
+  console.log("Received GET MCP request : ", req.body?.method);
   res.writeHead(405).end(
     JSON.stringify({
       jsonrpc: "2.0",
@@ -50,7 +60,7 @@ app.get("/mcp", async (req: Request, res: Response) => {
 });
 
 app.delete("/mcp", async (req: Request, res: Response) => {
-  console.log("Received GET MCP request");
+  console.log("Received GET MCP request : ", req.body?.method);
   res.writeHead(405).end(
     JSON.stringify({
       jsonrpc: "2.0",
@@ -63,14 +73,20 @@ app.delete("/mcp", async (req: Request, res: Response) => {
   );
 });
 
+app.get("/health", (req: Request, res: Response) => {
+  res.json({ status: "ok", server: "alpic-openai-app" });
+});
+
 app.listen(3000, (error) => {
   if (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
   }
 
-  console.log("Server listening on port 3000");
-  console.log("Make your local server accessible with 'ngrok http 3000' and connect to ChatGPT with URL https://xxxxxx.ngrok-free.app/mcp");
+  console.log(`Server listening on port 3000 - ${env.NODE_ENV}`);
+  console.log(
+    "Make your local server accessible with 'ngrok http 3000' and connect to ChatGPT with URL https://xxxxxx.ngrok-free.app/mcp",
+  );
 });
 
 process.on("SIGINT", async () => {

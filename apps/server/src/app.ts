@@ -1,8 +1,7 @@
 import { McpServer, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Resource } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodRawShape } from "zod";
-import kebabCase from "lodash";
-import { readFileSync } from "node:fs";
+import { env } from "./env";
 
 /** @see https://developers.openai.com/apps-sdk/reference#tool-descriptor-parameters */
 type ToolMeta = {
@@ -40,6 +39,16 @@ export class App extends McpServer {
       resourceMetadata["openai/widgetDescription"] = toolConfig.description;
     }
 
+    const injectViteClient = (html: string) =>
+      `
+        <script type="module">import { injectIntoGlobalHook } from "${env.SERVER_URL}/@react-refresh";
+        injectIntoGlobalHook(window);
+        window.$RefreshReg$ = () => {};
+        window.$RefreshSig$ = () => (type) => type;</script>
+
+        <script type="module" src="${env.SERVER_URL}/@vite/client"></script>
+    ` + html;
+
     this.resource(
       name,
       uri,
@@ -47,19 +56,26 @@ export class App extends McpServer {
         ...resourceConfig,
         _meta: resourceMetadata,
       },
-      async () => ({
-        contents: [
-          {
-            uri,
-            mimeType: "text/html+skybridge",
-            text: `
-            <div id="${kebabCase(name)}-root"></div>
-            <style>${readFileSync(`assets/${name}/style.css`, "utf-8")}</style>
-            <script type="module">${readFileSync(`assets/${name}/index.js`, "utf-8")}</script>
-                    `.trim(),
-          },
-        ],
-      }),
+      async () => {
+        const html = `
+          <div id="root"></div>
+          <script type="module">
+            ${env.NODE_ENV === "production" && `await import('${env.WEB_URL}/index.js');`}
+            ${env.NODE_ENV === "development" && `await import('${env.SERVER_URL}/src/main.tsx');`}
+            window.mountWidget('${name}', 'root');
+          </script>
+          `;
+
+        return {
+          contents: [
+            {
+              uri,
+              mimeType: "text/html+skybridge",
+              text: env.NODE_ENV === "development" ? injectViteClient(html) : html,
+            },
+          ],
+        };
+      },
     );
 
     const toolMeta: ToolMeta = {
