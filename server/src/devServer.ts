@@ -19,7 +19,7 @@ export const widgetsRouter = async (): Promise<RequestHandler> => {
 
   const { createServer, searchForWorkspaceRoot } = await import("vite");
   const workspaceRoot = searchForWorkspaceRoot(process.cwd());
-  const webAppRoot = path.join(workspaceRoot, "apps", "web");
+  const webAppRoot = path.join(workspaceRoot, "web");
 
   const vite = await createServer({
     configFile: false, // Disable the web config file

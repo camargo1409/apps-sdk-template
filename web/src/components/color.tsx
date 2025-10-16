@@ -25,7 +25,7 @@ export const Color = ({ color }: { color: "green" | "yellow" | "red" | "blue" })
           textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
         }}
       >
-        {colorName} IS THE MOST POWERFUL COLOR
+        {colorName} IS THE MOST POWERFUL COLOR !!
       </h1>
     </div>
   );

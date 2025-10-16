@@ -49,8 +49,8 @@ export class App extends McpServer {
         _meta: resourceMetadata,
       },
       async (_uri, extra) => {
-        const protocol = env.NODE_ENV === "production" ? "https" : "http";
-        const serverUrl = `${protocol}://${extra?.requestInfo?.headers?.host}`;
+        const serverUrl =
+          env.NODE_ENV === "production" ? `https://${extra?.requestInfo?.headers?.host}` : `http://localhost:3000`;
 
         const injectViteClient = (html: string) =>
           `
