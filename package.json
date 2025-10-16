@@ -7,7 +7,7 @@
   "packageManager": "pnpm@10.18.3",
   "scripts": {
     "dev": "pnpm --filter @apps-sdk-template/server dev",
-    "build": "pnpm web:build && pnpm server:build && cp -r apps/web/dist apps/server/dist/assets",
+    "build": "pnpm web:build && rm -rf apps/server/dist && pnpm --filter=@apps-sdk-template/server --prod deploy apps/server/dist && cp -r apps/web/dist apps/server/dist/assets && pnpm --filter=@apps-sdk-template/server build",
     "start": "pnpm server:start",
     "inspector": "pnpm --filter @apps-sdk-template/server inspector",
     "server:build": "pnpm --filter @apps-sdk-template/server build",
