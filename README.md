@@ -16,7 +16,7 @@ This project shows how to integrate a Typescript express application with the Ch
 ### Installation
 
 1. Clone the repository:
-
+ 
 ```bash
 git clone <repository-url>
 cd apps-sdk-template
