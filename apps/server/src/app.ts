@@ -41,16 +41,6 @@ export class App extends McpServer {
       resourceMetadata["openai/widgetDescription"] = toolConfig.description;
     }
 
-    const injectViteClient = (html: string) =>
-      `
-        <script type="module">import { injectIntoGlobalHook } from "${env.SERVER_URL}/@react-refresh";
-        injectIntoGlobalHook(window);
-        window.$RefreshReg$ = () => {};
-        window.$RefreshSig$ = () => (type) => type;</script>
-
-        <script type="module" src="${env.SERVER_URL}/@vite/client"></script>
-    ` + html;
-
     this.resource(
       name,
       uri,
@@ -58,7 +48,20 @@ export class App extends McpServer {
         ...resourceConfig,
         _meta: resourceMetadata,
       },
-      async () => {
+      async (_uri, extra) => {
+        const protocol = env.NODE_ENV === "production" ? "https" : "http";
+        const serverUrl = `${protocol}://${extra?.requestInfo?.headers?.host}`;
+
+        const injectViteClient = (html: string) =>
+          `
+            <script type="module">import { injectIntoGlobalHook } from "${serverUrl}/@react-refresh";
+            injectIntoGlobalHook(window);
+            window.$RefreshReg$ = () => {};
+            window.$RefreshSig$ = () => (type) => type;</script>
+
+            <script type="module" src="${serverUrl}/@vite/client"></script>
+        ` + html;
+
         const buildHtml = () => {
           if (env.NODE_ENV === "production") {
             try {
@@ -84,7 +87,7 @@ export class App extends McpServer {
           return `
               <div id="root"></div>
               <script type="module">
-                await import('${env.SERVER_URL}/src/main.tsx');
+                await import('${serverUrl}/src/main.tsx');
                 window.mountWidget('${name}');
               </script>
             `;
