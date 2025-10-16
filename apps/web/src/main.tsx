@@ -8,15 +8,15 @@ interface WidgetOptions {
 
 declare global {
   interface Window {
-    mountWidget: (widgetName: string, elementId: string, options?: WidgetOptions) => Promise<void>;
+    mountWidget: (widgetName: string, options?: WidgetOptions) => Promise<void>;
   }
 }
 
 let currentRoot: Root | null = null;
 
-window.mountWidget = async (widgetName, elementId, options = {}) => {
-  const container = document.getElementById(elementId);
-  if (!container) throw new Error(`Element ${elementId} not found`);
+window.mountWidget = async (widgetName, options = {}) => {
+  const container = document.getElementById("root");
+  if (!container) throw new Error(`Element root not found`);
 
   const module = await import(`./widgets/${widgetName}.tsx`);
   const Component = module.default;

@@ -7,7 +7,6 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "production"]).default("development"),
     SERVER_URL: z.string().url(),
-    WEB_URL: z.string().url(),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,

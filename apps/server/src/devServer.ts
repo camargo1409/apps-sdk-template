@@ -11,7 +11,6 @@ export const startDevServer = async (app: Express) => {
   const vite = await createServer({
     configFile: false, // Disable the web config file
     plugins: [react()],
-    logLevel: "warn",
     appType: "custom",
     server: {
       allowedHosts: true,

@@ -72,22 +72,22 @@ export class App extends McpServer {
                 <style>${cssContent}</style>
                 <script type="module">
                   ${jsContent}
-                  window.mountWidget('${name}', 'root');
+                  window.mountWidget('${name}');
                 </script>
               `;
             } catch (error) {
               console.error("Failed to load production assets:", error);
               return "";
             }
-          } else {
-            return `
+          }
+
+          return `
               <div id="root"></div>
               <script type="module">
                 await import('${env.SERVER_URL}/src/main.tsx');
-                window.mountWidget('${name}', 'root');
+                window.mountWidget('${name}');
               </script>
             `;
-          }
         };
 
         const html = buildHtml();
@@ -97,7 +97,7 @@ export class App extends McpServer {
             {
               uri,
               mimeType: "text/html+skybridge",
-              text: env.NODE_ENV === "development" ? injectViteClient(html) : html,
+              text: env.NODE_ENV === "production" ? html : injectViteClient(html),
             },
           ],
         };

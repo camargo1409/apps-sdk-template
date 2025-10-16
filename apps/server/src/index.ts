@@ -9,8 +9,6 @@ import { env } from "./env.js";
 
 const app = express() as Express & { vite: ViteDevServer };
 
-app.use(cors());
-
 app.use(express.json());
 
 startDevServer(app);
@@ -60,7 +58,6 @@ app.get("/mcp", async (req: Request, res: Response) => {
 });
 
 app.delete("/mcp", async (req: Request, res: Response) => {
-  console.log("Received GET MCP request : ", req.body?.method);
   res.writeHead(405).end(
     JSON.stringify({
       jsonrpc: "2.0",
@@ -71,10 +68,6 @@ app.delete("/mcp", async (req: Request, res: Response) => {
       id: null,
     }),
   );
-});
-
-app.get("/health", (req: Request, res: Response) => {
-  res.json({ status: "ok", server: "alpic-openai-app" });
 });
 
 app.listen(3000, (error) => {
