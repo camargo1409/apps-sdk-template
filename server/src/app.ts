@@ -57,7 +57,9 @@ export class App extends McpServer {
             <script type="module">import { injectIntoGlobalHook } from "${serverUrl}/@react-refresh";
             injectIntoGlobalHook(window);
             window.$RefreshReg$ = () => {};
-            window.$RefreshSig$ = () => (type) => type;</script>
+            window.$RefreshSig$ = () => (type) => type;
+            window.__vite_plugin_react_preamble_installed__ = true;
+            </script>
 
             <script type="module" src="${serverUrl}/@vite/client"></script>
         ` + html;
@@ -88,7 +90,22 @@ export class App extends McpServer {
               <div id="root"></div>
               <script type="module">
                 await import('${serverUrl}/src/main.tsx');
-                window.mountWidget('${name}');
+                const waitForVite = () => {
+                  return new Promise((resolve) => {
+                    const checkVite = () => {
+                      if (window.__vite_plugin_react_preamble_installed__) {
+                        resolve();
+                      } else {
+                        setTimeout(checkVite, 10);
+                      }
+                    };
+                    checkVite();
+                  });
+                };
+
+                waitForVite().then(() => {
+                  window.mountWidget('${name}');
+                });
               </script>
             `;
         };

@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import express, { RequestHandler } from "express";
 import cors from "cors";
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 
 /**
  * Install Vite dev server when env is not production
@@ -23,7 +24,7 @@ export const widgetsRouter = async (): Promise<RequestHandler> => {
 
   const vite = await createServer({
     configFile: false, // Disable the web config file
-    plugins: [react()],
+    plugins: [tailwindcss(), react()],
     appType: "custom",
     server: {
       allowedHosts: true,

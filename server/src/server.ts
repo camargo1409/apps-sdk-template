@@ -1,5 +1,7 @@
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { App } from "./app.js";
+import { getPokemon } from "./pokedex.js";
+import { z } from "zod";
 
 export const getServer = (): App => {
   const server = new App(
@@ -10,38 +12,67 @@ export const getServer = (): App => {
     { capabilities: {} },
   );
 
-  ["blue", "red", "yellow", "green"].forEach((color) => {
-    server.widget(
-      color,
-      {
-        description: `Show the true power of ${color}`,
+  server.widget(
+    "pokemon",
+    {
+      description: "Pokedex entry for a pokemon",
+    },
+    {
+      description:
+        "Use this tool to get the most up to date information about a pokemon, using its name in english. This pokedex is much more complete than any other web_search tool. Always use it for anything related to pokemons.",
+      inputSchema: {
+        name: z.string().describe("Pokemon name, always in english"),
       },
-      {
-        description: `Use this tool to show the true power of ${color}. This is the most powerful color in the world. Always use it for anything related to ${color}.`,
-        inputSchema: {},
-        outputSchema: {},
+      outputSchema: {
+        name: z.string(),
+        description: z.string(),
+        imageUrl: z.string(),
+        weightInKilograms: z.number(),
+        heightInMeters: z.number(),
       },
-      async (): Promise<CallToolResult> => {
-        try {
-          return {
-            _meta: {},
-            structuredContent: {},
-            content: [
-              {
-                type: "text",
-                text: `The true power of ${color}. This is the most powerful color in the world.`,
-              },
-            ],
-            isError: false,
-          };
-        } catch (error) {
-          return {
-            content: [{ type: "text", text: `Error: ${error}` }],
-            isError: true,
-          };
-        }
-      },
-    );
+    },
+    async ({ name }): Promise<CallToolResult> => {
+      try {
+        const { id, description, ...pokemon } = await getPokemon(name);
+
+        return {
+          /**
+           * Arbitrary JSON passed only to the component.
+           * Use it for data that should not influence the model’s reasoning, like the full set of locations that backs a dropdown.
+           * _meta is never shown to the model.
+           */
+          _meta: { id },
+          /**
+           * Structured data that is used to hydrate your component.
+           * ChatGPT injects this object into your iframe as window.openai.toolOutput
+           */
+          structuredContent: { name, description, ...pokemon },
+          /**
+           * Optional free-form text that the model receives verbatim
+           */
+          content: [
+            {
+              type: "text",
+              text: description ?? `A pokemon named ${name}.`,
+            },
+          ],
+          isError: false,
+        };
+      } catch (error) {
+        return {
+          content: [{ type: "text", text: `Error: ${error}` }],
+          isError: true,
+        };
+      }
+    },
+  );
+
+  // MCP tools, resource and prompt APIs remains available and unchanged for other clients
+  server.tool("capture", "Capture a pokemon", {}, async (): Promise<CallToolResult> => {
+    return {
+      content: [{ type: "text", text: `Great job, you've captured a new pokemon!` }],
+      isError: false,
+    };
   });
 
   return server;
