@@ -1,20 +1,16 @@
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import express, { type Request, type Response, type Express } from "express";
-import cors from "cors";
+import express, { type Express, type Request, type Response } from "express";
 
-import { getServer } from "./server.js";
-import { startDevServer } from "./devServer.js";
 import type { ViteDevServer } from "vite";
+import { widgetsRouter } from "./devServer.js";
 import { env } from "./env.js";
+import { getServer } from "./server.js";
 
 const app = express() as Express & { vite: ViteDevServer };
 
 app.use(express.json());
 
-startDevServer(app);
-
 app.post("/mcp", async (req: Request, res: Response) => {
-  console.log("Received POST MCP request : ", req.body?.method, req.body?.params?.name ?? "");
   try {
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
@@ -44,7 +40,6 @@ app.post("/mcp", async (req: Request, res: Response) => {
 });
 
 app.get("/mcp", async (req: Request, res: Response) => {
-  console.log("Received GET MCP request : ", req.body?.method);
   res.writeHead(405).end(
     JSON.stringify({
       jsonrpc: "2.0",
@@ -69,6 +64,8 @@ app.delete("/mcp", async (req: Request, res: Response) => {
     }),
   );
 });
+
+app.use(await widgetsRouter());
 
 app.listen(3000, (error) => {
   if (error) {
