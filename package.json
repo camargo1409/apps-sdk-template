@@ -15,12 +15,6 @@
     "web:build": "pnpm --filter @apps-sdk-template/web build",
     "web:preview": "pnpm --filter @apps-sdk-template/web preview"
   },
-  "pnpm": {
-    "overrides": {
-      "react": "^19.1.1",
-      "react-dom": "^19.1.1"
-    }
-  },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
