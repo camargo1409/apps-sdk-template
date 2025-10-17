@@ -1,6 +1,6 @@
 import { Spinner } from "../components/ui/shadcn-io/spinner";
 
-import { useToolOutput } from "../hooks/use-tool-output";
+import { useToolOutput } from "@apps-sdk-template/bridge/hooks";
 
 type Pokemon = {
   name: string;
