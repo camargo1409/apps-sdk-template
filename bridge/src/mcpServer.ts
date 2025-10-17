@@ -1,9 +1,8 @@
-import { McpServer, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer as McpServerBase, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Resource } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodRawShape } from "zod";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { env } from "./env.js";
 
 /** @see https://developers.openai.com/apps-sdk/reference#tool-descriptor-parameters */
 type ToolMeta = {
@@ -25,7 +24,7 @@ type McpServerOriginalResourceConfig = Omit<Resource, "uri" | "name" | "mimeType
 
 type McpServerOriginalToolConfig = Omit<Parameters<McpServer["registerTool"]>[1], "inputSchema" | "outputSchema">;
 
-export class App extends McpServer {
+export class McpServer extends McpServerBase {
   widget<InputArgs extends ZodRawShape, OutputArgs extends ZodRawShape>(
     name: string,
     resourceConfig: McpServerOriginalResourceConfig,
@@ -50,7 +49,9 @@ export class App extends McpServer {
       },
       async (_uri, extra) => {
         const serverUrl =
-          env.NODE_ENV === "production" ? `https://${extra?.requestInfo?.headers?.host}` : `http://localhost:3000`;
+          process.env.NODE_ENV === "production"
+            ? `https://${extra?.requestInfo?.headers?.host}`
+            : `http://localhost:3000`;
 
         const injectViteClient = (html: string) =>
           `
@@ -65,7 +66,7 @@ export class App extends McpServer {
         ` + html;
 
         const buildHtml = () => {
-          if (env.NODE_ENV === "production") {
+          if (process.env.NODE_ENV === "production") {
             try {
               const cssPath = join(process.cwd(), "dist/assets/style.css");
               const cssContent = readFileSync(cssPath, "utf-8");
@@ -117,7 +118,7 @@ export class App extends McpServer {
             {
               uri,
               mimeType: "text/html+skybridge",
-              text: env.NODE_ENV === "production" ? html : injectViteClient(html),
+              text: process.env.NODE_ENV === "production" ? html : injectViteClient(html),
             },
           ],
         };

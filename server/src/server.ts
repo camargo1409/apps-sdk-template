@@ -1,10 +1,10 @@
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { App } from "./app.js";
 import { getPokemon } from "./pokedex.js";
 import { z } from "zod";
+import { McpServer } from "@apps-sdk-template/bridge";
 
-export const getServer = (): App => {
-  const server = new App(
+export const getServer = (): McpServer => {
+  const server = new McpServer(
     {
       name: "alpic-openai-app",
       version: "0.0.1",

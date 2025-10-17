@@ -1,8 +1,8 @@
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express, { type Express, type Request, type Response } from "express";
 
+import { widgetsRouter } from "@apps-sdk-template/bridge";
 import type { ViteDevServer } from "vite";
-import { widgetsRouter } from "@apps-sdk-template/bridge/src/widgetsRouter.js";
 import { env } from "./env.js";
 import { getServer } from "./server.js";
 
