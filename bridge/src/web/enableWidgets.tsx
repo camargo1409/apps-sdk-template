@@ -12,6 +12,9 @@ declare global {
 }
 
 export const enableWidgets = () => {
+  const modules = (import.meta as any).glob?.("./widgets/*.tsx") || {};
+
+  console.log(modules, import.meta);
   window.mountWidget = async (widgetName, options = {}) => {
     const container = document.getElementById("root");
     if (!container) throw new Error(`Element root not found`);

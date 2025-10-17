@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "exports": {
-    ".": "./index.js",
-    "./hooks": "./src/hooks/index.js"
+    "./server": "./src/server/index.js",
+    "./web": "./src/web/index.js"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",

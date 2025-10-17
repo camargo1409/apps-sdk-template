@@ -1,6 +1,6 @@
 import express, { type Express } from "express";
 
-import { mcp, widgetsDevServer } from "@apps-sdk-template/bridge";
+import { mcp, widgetsDevServer } from "@apps-sdk-template/bridge/server";
 import type { ViteDevServer } from "vite";
 import { env } from "./env.js";
 import server from "./server.js";
