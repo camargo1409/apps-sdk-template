@@ -1,8 +1,6 @@
-import react from "@vitejs/plugin-react";
 import express, { RequestHandler } from "express";
 import cors from "cors";
 import path from "node:path";
-import tailwindcss from "@tailwindcss/vite";
 
 /**
  * Install Vite dev server when env is not production
@@ -18,13 +16,22 @@ export const widgetsRouter = async (): Promise<RequestHandler> => {
     return router;
   }
 
-  const { createServer, searchForWorkspaceRoot } = await import("vite");
+  const { createServer, searchForWorkspaceRoot, loadConfigFromFile } = await import("vite");
   const workspaceRoot = searchForWorkspaceRoot(process.cwd());
   const webAppRoot = path.join(workspaceRoot, "web");
 
+  const configResult = await loadConfigFromFile(
+    { command: "serve", mode: "development" },
+    path.join(webAppRoot, "vite.config.ts"),
+    webAppRoot,
+  );
+
+  // Remove build-specific options that don't apply to dev server
+  const { build, preview, ...devConfig } = configResult?.config || {};
+
   const vite = await createServer({
-    configFile: false, // Disable the web config file
-    plugins: [tailwindcss(), react()],
+    ...devConfig,
+    configFile: false, // Keep this to prevent vite from trying to resolve path in the target config file
     appType: "custom",
     server: {
       allowedHosts: true,
