@@ -1,0 +1,6 @@
+{
+  "name": "@apps-sdk-template/bridge",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module"
+}
