@@ -10,8 +10,9 @@
     "outDir": "dist",
     "sourceMap": true,
     "jsx": "react",
-    "inlineSources": true
+    "inlineSources": true,
+    "baseUrl": "src"
   },
-  "include": ["**/*.ts", "**/*.tsx", "../bridge/src/widgetsRouter.ts"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["dist", "node_modules"]
 }
