@@ -12,6 +12,6 @@
     "jsx": "react",
     "inlineSources": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "../bridge/src/widgetsRouter.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "../bridge/src/widgetsDevServer.ts"],
   "exclude": ["dist", "node_modules"]
 }

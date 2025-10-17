@@ -9,12 +9,8 @@ import path from "node:path";
  *  const app = express();
  *  app.use(await widgetsRouter());
  */
-export const widgetsRouter = async (): Promise<RequestHandler> => {
+export const widgetsDevServer = async (): Promise<RequestHandler> => {
   const router = express.Router();
-
-  if (process.env.NODE_ENV === "production") {
-    return router;
-  }
 
   const { createServer, searchForWorkspaceRoot, loadConfigFromFile } = await import("vite");
   const workspaceRoot = searchForWorkspaceRoot(process.cwd());
