@@ -94,7 +94,7 @@ Use Alpic to deploy your OpenAI App to production.
 
 - Fork this repository to your personal Github organization or use it as a template to create a new project
 - Go to [Alpic](https://app.alpic.ai/), login with your Github account, and create a new project using your repository
-- Leave all default settings and click on **Deploy**. In about 30 seconds you should see your deployment status as **Deployed**
+- Put `server/dist` in the `Output directory` field and click on **Deploy**. In about 30 seconds you should see your deployment status as **Deployed**
 - In ChatGPT, navigate to **Settings → Connectors → Create** and add your MCP server URL (e.g., `https://your-app-name.alpic.live`)
 
 ## Project Structure
