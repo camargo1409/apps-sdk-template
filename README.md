@@ -2,8 +2,6 @@
 
 This repository is a minimal Typescript application demonstrating how to build an OpenAI Apps SDK compatible MCP server with widget rendering in ChatGPT.
 
-![Demo](docs/demo.gif)
-
 ## Overview
 
 This project shows how to integrate a Typescript express application with the ChatGPT Apps SDK using the Model Context Protocol (MCP). It includes a working MCP server that exposes tools and resources that can be called from ChatGPT, with responses rendered natively in ChatGPT. It also includes MCP tools without UI widget.
@@ -18,7 +16,7 @@ This project shows how to integrate a Typescript express application with the Ch
 
 ### Local Development with Hot Module Replacement (HMR)
 
-This project uses Vite for React widget development with full HMR support, allowing you to see changes in real-time without restarting the server.
+This project uses Vite for React widget development with full HMR support, allowing you to see changes in real-time, directly within ChatGPT conversation, without restarting the server.
 
 #### 1. Clone and Install
 
@@ -36,9 +34,9 @@ Run the development server from the root directory:
 pnpm dev
 ```
 
-This command starts:
-- The Express server with the MCP server on port 3000
-- The Vite dev server for React widgets with HMR enabled
+This command starts an express server on port 3000. This server packages:
+- an MCP endpoint on `/mcp` - aka as the ChatGPT App Backend
+- a React application on Vite HMR dev server - aka as the ChatGPT App Frontend
 
 #### 3. Expose Your Local Server
 
@@ -101,7 +99,7 @@ Use Alpic to deploy your OpenAI App to production.
 
 ```
 .
-├── src/
+├── server/
 │   ├── app.ts          # OpenAI App extension class with widget API implementation
 │   ├── server.ts       # MCP server with tool/resource/prompt registration
 │   └── index.ts        # Express server definition
