@@ -1,6 +1,9 @@
+import "../index.css";
 import { Spinner } from "../components/ui/shadcn-io/spinner";
 
+// import { useToolOutput } from "../hooks/use-tool-output";
 import { useToolOutput } from "@apps-sdk-template/bridge/web";
+import "react-dom/client";
 
 type Pokemon = {
   name: string;

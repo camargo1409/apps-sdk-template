@@ -90,7 +90,8 @@ export class McpServer extends McpServerBase {
           return `
               <div id="root"></div>
               <script type="module">
-                await import('${serverUrl}/src/main.tsx');
+              import React from "${serverUrl}/node_modules/.vite/deps/react.js";
+              import ReactDOM from "${serverUrl}/node_modules/.vite/deps/react-dom_client.js";
                 const waitForVite = () => {
                   return new Promise((resolve) => {
                     const checkVite = () => {
@@ -104,8 +105,18 @@ export class McpServer extends McpServerBase {
                   });
                 };
 
+                const mountWidget = async (widgetName, options = {}) => {
+                  const container = document.getElementById("root");
+                  if (!container) throw new Error('Element root not found');
+
+                  const module = await import('${serverUrl}/src/widgets/' + widgetName + '.tsx');
+                  const Component = module.default;
+
+                  ReactDOM.createRoot(container).render(React.createElement(Component, options, null));
+                };
+
                 waitForVite().then(() => {
-                  window.mountWidget('${name}');
+                  mountWidget('${name}');
                 });
               </script>
             `;

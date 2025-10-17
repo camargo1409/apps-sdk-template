@@ -34,6 +34,9 @@ export const widgetsDevServer = async (): Promise<RequestHandler> => {
       middlewareMode: true,
     },
     root: webAppRoot,
+    optimizeDeps: {
+      include: ["react", "react-dom/client"],
+    },
   });
 
   router.use(cors());
