@@ -37,6 +37,7 @@ pnpm dev
 ```
 
 This command starts an express server on port 3000. This server packages:
+
 - an MCP endpoint on `/mcp` - aka as the ChatGPT App Backend
 - a React application on Vite HMR dev server - aka as the ChatGPT App Frontend
 
@@ -83,6 +84,7 @@ Now you can edit React components in `web` and see changes instantly:
 **Important:** For a widget to work properly, the name of the endpoint in your MCP server must match the file name of the corresponding React component in `web/src/widgets/`.
 
 For example:
+
 - If you create a widget endpoint named `pokemon-card`, you must create a corresponding React component file at `web/src/widgets/pokemon-card.tsx`
 - The endpoint name and the widget file name (without the `.tsx` extension) must be identical
 
