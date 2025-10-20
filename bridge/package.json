@@ -3,9 +3,19 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "dist/index.js",
   "exports": {
-    "./server": "./src/server/index.js",
-    "./web": "./src/web/index.js"
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "default": "./dist/server/index.js"
+    },
+    "./web": {
+      "types": "./dist/web/index.d.ts",
+      "default": "./dist/web/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",

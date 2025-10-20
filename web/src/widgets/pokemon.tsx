@@ -1,9 +1,7 @@
-import "../index.css";
 import { Spinner } from "../components/ui/shadcn-io/spinner";
+import "../index.css";
 
-// import { useToolOutput } from "../hooks/use-tool-output";
-import { useToolOutput } from "@apps-sdk-template/bridge/web";
-import "react-dom/client";
+import { mountWidget, useToolOutput } from "@apps-sdk-template/bridge/web";
 
 type Pokemon = {
   name: string;
@@ -179,3 +177,5 @@ const Tile = ({ children, color }: { children: React.ReactNode; color: string })
 };
 
 export default App;
+
+mountWidget(<App />);

@@ -12,12 +12,6 @@
     "jsx": "react",
     "inlineSources": true
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "../bridge/src/server/widgetsDevServer.ts",
-    "../bridge/src/hooks/use-openai-global.ts",
-    "../bridge/src/hooks/use-tool-output.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["dist", "node_modules"]
 }

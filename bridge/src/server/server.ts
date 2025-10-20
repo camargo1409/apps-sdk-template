@@ -1,8 +1,6 @@
 import { McpServer as McpServerBase, type ToolCallback } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { Resource } from "@modelcontextprotocol/sdk/types.js";
 import type { ZodRawShape } from "zod";
-import { readFileSync } from "fs";
-import { join } from "path";
 
 /** @see https://developers.openai.com/apps-sdk/reference#tool-descriptor-parameters */
 type ToolMeta = {
@@ -68,18 +66,12 @@ export class McpServer extends McpServerBase {
         const buildHtml = () => {
           if (process.env.NODE_ENV === "production") {
             try {
-              const cssPath = join(process.cwd(), "dist/assets/style.css");
-              const cssContent = readFileSync(cssPath, "utf-8");
-              const jsPath = join(process.cwd(), "dist/assets/index.js");
-              const jsContent = readFileSync(jsPath, "utf-8");
-
               return `
                 <div id="root"></div>
-                <style>${cssContent}</style>
                 <script type="module">
-                  ${jsContent}
-                  window.mountWidget('${name}');
+                  import('${serverUrl}/assets/${name}.js');
                 </script>
+                <link rel="stylesheet" crossorigin href="${serverUrl}/assets/style.css">
               `;
             } catch (error) {
               console.error("Failed to load production assets:", error);
@@ -88,38 +80,11 @@ export class McpServer extends McpServerBase {
           }
 
           return `
-              <div id="root"></div>
-              <script type="module">
-              import React from "${serverUrl}/node_modules/.vite/deps/react.js";
-              import ReactDOM from "${serverUrl}/node_modules/.vite/deps/react-dom_client.js";
-                const waitForVite = () => {
-                  return new Promise((resolve) => {
-                    const checkVite = () => {
-                      if (window.__vite_plugin_react_preamble_installed__) {
-                        resolve();
-                      } else {
-                        setTimeout(checkVite, 10);
-                      }
-                    };
-                    checkVite();
-                  });
-                };
-
-                const mountWidget = async (widgetName, options = {}) => {
-                  const container = document.getElementById("root");
-                  if (!container) throw new Error('Element root not found');
-
-                  const module = await import('${serverUrl}/src/widgets/' + widgetName + '.tsx');
-                  const Component = module.default;
-
-                  ReactDOM.createRoot(container).render(React.createElement(Component, options, null));
-                };
-
-                waitForVite().then(() => {
-                  mountWidget('${name}');
-                });
-              </script>
-            `;
+          <div id="root"></div>
+            <script type="module">
+              import('${serverUrl}/src/widgets/${name}.tsx');
+            </script>
+          `;
         };
 
         const html = buildHtml();
