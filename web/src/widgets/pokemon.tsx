@@ -1,7 +1,7 @@
 import { Spinner } from "../components/ui/shadcn-io/spinner";
 import "../index.css";
 
-import { mountWidget, useToolOutput } from "@apps-sdk-template/bridge/web";
+import { mountWidget, useToolOutput } from "skybridge/web";
 
 type Pokemon = {
   name: string;
