@@ -4,9 +4,9 @@ import { mcp, widgetsDevServer } from "skybridge/server";
 import type { ViteDevServer } from "vite";
 import { env } from "./env.js";
 import server from "./server.js";
-import path from "path";
-import { fileURLToPath } from "url";
-import cors from "cors";
+// import path from "path";
+// import { fileURLToPath } from "url";
+// import cors from "cors";
 
 const app = express() as Express & { vite: ViteDevServer };
 
@@ -19,15 +19,15 @@ if (env.NODE_ENV !== "production") {
 }
 
 // To be deleted, only for bridge testing purposes
-if (env.NODE_ENV === "production") {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
+// if (env.NODE_ENV === "production") {
+//   const __filename = fileURLToPath(import.meta.url);
+//   const __dirname = path.dirname(__filename);
 
-  // Enable CORS for all routes
-  app.use(cors());
+//   // Enable CORS for all routes
+//   app.use(cors());
 
-  app.use("/assets", express.static(path.join(__dirname, "assets")));
-}
+//   app.use("/assets", express.static(path.join(__dirname, "assets")));
+// }
 
 app.listen(3000, (error) => {
   if (error) {
