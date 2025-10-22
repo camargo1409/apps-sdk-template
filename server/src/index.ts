@@ -1,5 +1,5 @@
+// import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express, { type Express } from "express";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 
 import { mcp, widgetsDevServer } from "skybridge/server";
 import type { ViteDevServer } from "vite";
@@ -7,8 +7,6 @@ import { env } from "./env.js";
 import server from "./server.js";
 
 const app = express() as Express & { vite: ViteDevServer };
-
-console.log("TO BE DELETED", SSEServerTransport);
 
 app.use(express.json());
 
