@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.20.0",
-    "skybridge": "0.0.0-dev.8b0af23",
+    "skybridge": "0.0.0-dev.c63f165",
     "@t3-oss/env-core": "^0.13.8",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
