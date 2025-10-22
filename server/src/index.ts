@@ -1,3 +1,4 @@
+// import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express, { type Express } from "express";
 
 import { mcp, widgetsDevServer } from "skybridge/server";
