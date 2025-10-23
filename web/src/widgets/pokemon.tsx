@@ -136,7 +136,7 @@ const typesToClassnames: Record<
   },
 };
 
-function App() {
+function Pokemon() {
   const pokemon = useToolOutput() as Pokemon | null;
 
   if (!pokemon) {
@@ -176,6 +176,6 @@ const Tile = ({ children, color }: { children: React.ReactNode; color: string })
   return <div className={`p-4 rounded-xl ${typesToClassnames[color].background.tiles}`}>{children}</div>;
 };
 
-export default App;
+export default Pokemon;
 
-mountWidget(<App />);
+mountWidget(<Pokemon />);

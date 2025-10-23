@@ -1,8 +1,5 @@
-// import React from "react";
-import "react-dom/client";
-import { createRoot } from "react-dom/client";
-import "../index.css";
-import { StrictMode } from "react";
+import { mountWidget } from "skybridge/web";
+import "@/index.css";
 
 const HelloWorld = () => {
   return (
@@ -16,8 +13,4 @@ const HelloWorld = () => {
 
 export default HelloWorld;
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <HelloWorld />
-  </StrictMode>,
-);
+mountWidget(<HelloWorld />);

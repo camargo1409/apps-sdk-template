@@ -1,5 +1,4 @@
 packages:
   - "web"
   - "server"
-  - "bridge"
 sharedWorkspaceLockfile: false
