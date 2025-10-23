@@ -74,22 +74,4 @@ server.tool("capture", "Capture a pokemon", {}, async (): Promise<CallToolResult
   };
 });
 
-server.widget(
-  "hello",
-  {
-    description: "Say hello to the world",
-  },
-  {
-    description: "Use this tool to say hello to the world",
-    inputSchema: {},
-    outputSchema: {},
-  },
-  async (): Promise<CallToolResult> => {
-    return {
-      content: [{ type: "text", text: `Hello to the World has been said!` }],
-      isError: false,
-    };
-  },
-);
-
 export default server;
