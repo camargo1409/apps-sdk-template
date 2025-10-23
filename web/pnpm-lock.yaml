@@ -27,8 +27,8 @@ importers:
         specifier: ^19.1.1
         version: 19.2.0(react@19.2.0)
       skybridge:
-        specifier: 0.0.0-dev.b095cd5
-        version: 0.0.0-dev.b095cd5(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: 0.0.0-dev.8914598
+        version: 0.0.0-dev.8914598(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -1571,8 +1571,8 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
-  skybridge@0.0.0-dev.b095cd5:
-    resolution: {integrity: sha512-2WuoVwatrRXAH01LxGGwwNcAp4UAF/N1NSpIrsCtDrU6b2tbk3khVkSoN4QPBqKclgcfwls8mZOd7i2XI3wCjg==}
+  skybridge@0.0.0-dev.8914598:
+    resolution: {integrity: sha512-+Qlwlr4uIPSQWrEJtPRG/lC3GRa10KP8Ix5VIKZhdMVu2acGA1MCtIbSZHz4j119xnUa8w21RJlkQpHma3LOvA==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -3223,7 +3223,7 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
-  skybridge@0.0.0-dev.b095cd5(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  skybridge@0.0.0-dev.8914598(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.20.1
       cors: 2.8.5
