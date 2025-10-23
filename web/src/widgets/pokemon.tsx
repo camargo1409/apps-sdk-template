@@ -1,5 +1,5 @@
-import { Spinner } from "../components/ui/shadcn-io/spinner";
-import "../index.css";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import "@/index.css";
 
 import { mountWidget, useToolOutput } from "skybridge/web";
 

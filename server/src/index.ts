@@ -1,9 +1,9 @@
-// import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import express, { type Express } from "express";
 
-import { mcp, widgetsDevServer } from "skybridge/server";
+import { widgetsDevServer } from "skybridge/server";
 import type { ViteDevServer } from "vite";
 import { env } from "./env.js";
+import { mcp } from "./middleware.js";
 import server from "./server.js";
 
 const app = express() as Express & { vite: ViteDevServer };
